@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>InformatiX Kulübü</title>
+    
+    <link rel="icon" type="image/png" href="assets/infx_logo.png">
+    
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-hover: #2c2c2c;
+            --primary-color: #bb86fc;
+            --primary-variant: #3700b3;
+            --secondary-color: #03dac6;
+            --whatsapp-color: #25D366;
+            --text-primary: rgba(255, 255, 255, 0.87);
+            --text-secondary: rgba(255, 255, 255, 0.60);
+            --divider-color: rgba(255, 255, 255, 0.12);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--divider-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .menu-btn {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .menu-btn div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-primary);
+            margin: 5px;
+            transition: var(--transition);
+        }
+
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 0 2rem;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-slogan {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+        }
+
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-intro {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .about-intro strong, .about-intro em {
+            color: var(--text-primary);
+        }
+
+        .about-subtitle {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .about-card {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--divider-color);
+            margin-top: 2rem;
+        }
+
+        .about-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .about-list li {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .about-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            top: -2px;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .about-list li strong {
+            color: var(--text-primary);
+        }
+
+        .about-list li em {
+            color: var(--secondary-color);
+            font-style: normal;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 1px solid var(--divider-color);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background-color: var(--surface-hover);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--divider-color);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .social-card {
+            padding: 3rem 2rem;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1.5rem;
+            fill: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .social-card:hover .social-icon {
+            fill: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .social-card a {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .social-card a:hover {
+            background-color: rgba(187, 134, 252, 0.1);
+        }
+
+        #bize-katil {
+            text-align: center;
+        }
+
+        .join-box {
+            background-color: var(--surface-color);
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--divider-color);
+        }
+
+        .btn-whatsapp {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            background-color: var(--whatsapp-color);
+            color: #fff;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1ebe57;
+            transform: scale(1.05);
+            color: #fff;
+        }
+
+        #iletisim {
+            text-align: center;
+            padding-bottom: 8rem;
+        }
+
+        .mail-link {
+            font-size: 2rem;
+            font-weight: 700;
+            word-break: break-all;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: opacity 0.3s ease;
+        }
+
+        .mail-link:hover {
+            opacity: 0.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #0a0a0a;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--divider-color);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-slogan { font-size: 1.2rem; }
+            .section-title { font-size: 2rem; }
+            .mail-link { font-size: 1.5rem; }
+            
+            .menu-btn { display: block; }
+            
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background-color: var(--surface-color);
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+                border-bottom: 1px solid var(--divider-color);
+            }
+
+            .nav-links.active { max-height: 400px; }
+            .nav-links li { width: 100%; text-align: center; }
+            .nav-links a { display: block; padding: 1.5rem; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#hero" class="logo">
+                <img src="assets/infx_logo.png" alt="InformatiX Logo">
+            </a>
+            <button class="menu-btn" id="menu-btn" aria-label="Menü">
+                <div></div><div></div><div></div>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hakkimizda">Hakkımızda</a></li>
+                <li><a href="#etkinlikler">Etkinliklerimiz</a></li>
+                <li><a href="#sosyal-medya">Sosyal Medya</a></li>
+                <li><a href="#bize-katil">Bize Katıl</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="hero">
+        <canvas id="particle-canvas"></canvas>
+        <div class="hero-content">
+            <h1 class="hero-title fade-in">INFORMATIX Kulübü</h1>
+            <p class="hero-slogan fade-in">Türk-Alman Üniversitesi</p>
+        </div>
+    </header>
+
+    <section id="hakkimizda">
+        <h2 class="section-title fade-in">Hakkımızda</h2>
+        <div class="about-wrapper fade-in">
+            <p class="about-intro">
+                Türk-Alman Üniversitesi'nin resmi bir topluluğu olan <strong>InformatiX Kulübü</strong> olarak; bilgisayar bilimleri, mühendislik ve bilişim teknolojileri alanlarında yenilikçi bir vizyonla faaliyet gösteriyoruz. Kurulduğumuz günden bu yana, Türk-Alman akademik sentezini inovasyonla harmanlıyor ve "bilginin nasıl işlendiğini ve eğitildiğini" sorgulayan <em>Informatik</em> konseptini teknoloji ekosistemine kazandırmaktan <strong>büyük gurur duyuyoruz.</strong>
+            </p>
+            <p class="about-subtitle">Teoriyi pratikle birleştiren bu güçlü vizyonumuz doğrultusunda:</p>
+            
+            <div class="about-card">
+                <ul class="about-list">
+                    <li>
+                        <strong>Sektör ve Akademi Buluşmaları:</strong> Düzenlediğimiz zirve, panel ve konferanslarda alan profesyonellerini akademiyle bir araya getirerek güçlü bir <em>bilgi birikimi (know-how)</em> transferi sağlıyoruz.
+                    </li>
+                    <li>
+                        <strong>Pratik Deneyim ve Gelişim Kültürü:</strong> Sıklıkla düzenlediğimiz hackathonlar, <em>rekabetçi programlama</em> atölyeleri ve kapsamlı <em>workshoplar</em> ile üyelerimizin pratik deneyimlerini güçlendiriyoruz. Kurduğumuz <strong>olimpiyat takımları</strong> ve uluslararası yarışmalarda boy gösteren çevik ekiplerimizle yenilikçi geliştirme kültürünü sürekli canlı tutuyoruz.
+                    </li>
+                    <li>
+                        <strong>Global Akademik Katkı:</strong> Uluslararası konferans ve dergilere sunduğumuz akademik makalelerle yalnızca proje üretmekle kalmıyor, aynı zamanda evrensel bilim ekosistemine doğrudan değer katıyoruz.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="etkinlikler">
+        <h2 class="section-title fade-in">Etkinliklerimiz</h2>
+        <div class="cards-grid">
+            <div class="card fade-in">
+                <img src="assets/konferans.jpg" alt="Konferanslar" class="card-img">
+                <h3 class="card-title">Konferanslar</h3>
+                <p style="color: var(--text-secondary);">Sektörün önde gelen isimlerini ve uzmanlarını ağırlayarak, bilişim dünyasındaki en son trendleri ve vizyonları kampüsümüze taşıyoruz.</p>
+            </div>
+            <div class="card fade-in">
+                <img src="assets/hackathon.jpg" alt="Hackathonlar" class="card-img">
+                <h3 class="card-title">Hackathonlar</h3>
+                <p style="color: var(--text-secondary);">Fikirlerin koda dönüştüğü maratonlarda, kısıtlı sürede en yaratıcı ve inovatif çözümleri üreterek sınırları zorluyoruz.</p>
+            </div>
+            <div class="card fade-in">
+                <img src="assets/workshop.png" alt="Workshoplar" class="card-img">
+                <h3 class="card-title">Workshoplar</h3>
+                <p style="color: var(--text-secondary);">Teorik bilgileri pratiğe dökme fırsatı bulduğumuz teknik atölyeler ile yeni teknolojileri uygulamalı olarak öğreniyoruz.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="sosyal-medya">
+        <h2 class="section-title fade-in">Sosyal Medya</h2>
+        <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); max-width: 800px; margin: 0 auto;">
+            
+            <div class="card social-card fade-in">
+                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <h3 class="card-title">Instagram</h3>
+                <p style="color: var(--text-secondary);">Etkinlik duyurularımız, anlık paylaşımlar ve kulüp içi renkli kareler için bizi takip et.</p>
+                <a href="https://www.instagram.com/infxofficial/" target="_blank">Takip Et</a>
+            </div>
+
+            <div class="card social-card fade-in">
+                <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+                <h3 class="card-title">LinkedIn</h3>
+                <p style="color: var(--text-secondary);">Profesyonel ağımız, kariyer fırsatları ve kurumsal işbirliklerimizden haberdar ol.</p>
+                <a href="https://www.linkedin.com/company/tau-informatix/" target="_blank">Bağlantı Kur</a>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="bize-katil">
+        <div class="join-box fade-in">
+            <h2 class="section-title" style="margin-bottom: 1rem;">Bize Katıl</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
+                InformatiX ailesinin bir parçası olmak, tüm duyurulardan anında haberdar olmak ve diğer kulüp üyeleriyle tanışmak için WhatsApp Topluluğumuza katıl!
+            </p>
+            <a href="https://chat.whatsapp.com/JPCBerNVWrBBJZnGuZRnau" target="_blank" class="btn-whatsapp">
+                WhatsApp Topluluğumuza Katıl
+            </a>
+        </div>
+    </section>
+
+    <section id="iletisim">
+        <h2 class="section-title fade-in">İletişim</h2>
+        <div class="fade-in">
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Her türlü soru ve iş birliği için bize yazabilirsin:</p>
+            <a href="mailto:infx@kulup.tau.edu.tr" class="mail-link">infx@kulup.tau.edu.tr</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Türk-Alman Üniversitesi InformatiX Kulübü. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let w, h;
+
+        function initCanvas() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.vx = (Math.random() - 0.5) * 1;
+                this.vy = (Math.random() - 0.5) * 1;
+                this.radius = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > w) this.vx *= -1;
+                if (this.y < 0 || this.y > h) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(3, 218, 198, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(187, 134, 252, ${1 - distance/120})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        animate();
+    </script>
+</body>
+</html>
